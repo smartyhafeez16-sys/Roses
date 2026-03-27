@@ -7,7 +7,8 @@
 
 <style>
 body {
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     background: linear-gradient(to bottom, #ff9ecf, #ffe6f2);
     height: 100vh;
     display: flex;
@@ -27,35 +28,30 @@ body {
     font-weight: bold;
     letter-spacing: 5px;
     color: #ff1493;
-    text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 40px #ff69b4;
-    transition: 0.5s;
+    text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
     z-index: 5;
 }
 
-.container { text-align: center; position: relative; z-index: 2; }
+.container { text-align: center; z-index: 2; }
 
-.rose { width: 200px; cursor: pointer; transition: 1s; filter: drop-shadow(0 0 20px pink); }
-
-.fade-out { opacity: 0; transform: scale(0.5) rotate(20deg); }
+.rose { width: 200px; cursor: pointer; transition: 1s; }
+.hidden { display: none; }
 
 .text {
     color: white;
     font-size: 22px;
     margin-top: 20px;
-    text-shadow: 0 0 10px hotpink;
 }
 
 .image-reveal {
     width: 280px;
     border-radius: 20px;
-    box-shadow: 0 0 50px hotpink;
     opacity: 0;
     transform: scale(0.7);
     transition: 1.5s;
 }
 
 .show { opacity: 1; transform: scale(1); }
-.hidden { display: none; }
 
 .notification {
     position: fixed;
@@ -66,91 +62,63 @@ body {
     color: white;
     padding: 12px 25px;
     border-radius: 25px;
-    box-shadow: 0 0 15px pink;
-    font-size: 18px;
     cursor: pointer;
     z-index: 5;
-    animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-    0% { transform: translateX(-50%) scale(1); }
-    50% { transform: translateX(-50%) scale(1.1); }
-    100% { transform: translateX(-50%) scale(1); }
+.heart {
+    position: absolute;
+    bottom: -20px;
+    animation: floatUp 6s linear infinite;
 }
-
-.heart { position: absolute; bottom: -20px; animation: floatUp 6s linear infinite; }
 
 @keyframes floatUp {
     0% { transform: translateY(0); }
     100% { transform: translateY(-100vh); opacity: 0; }
 }
 
-.sparkle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 10px pink, 0 0 20px hotpink;
-    animation: sparkle 2s infinite;
-}
-
-@keyframes sparkle {
-    0%,100%{opacity:0;}
-    50%{opacity:1;}
-}
-
 .message {
     color: white;
     font-size: 20px;
     margin-top: 20px;
-    text-shadow: 0 0 10px #ff69b4;
-}
-
-@media(max-width:768px) {
-    .rose { width: 150px; }
-    .image-reveal { width: 200px; }
-    .title { font-size: 30px; }
-    .notification { font-size: 16px; padding: 10px 20px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="title" id="title">MIMI 💖</div>
+<div class="title">MIMI 💖</div>
 
-<audio autoplay loop>
-<source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-</audio>
-
-<div class="notification" id="startNote">Click here to see the Pink Rose 🌸</div>
-<div class="notification hidden" id="nextNote">Click here to see the Light Pink Rose 🌷</div>
-<div class="notification hidden" id="thirdNote">Click here to see the Yellow Rose 🌼</div>
-<div class="notification hidden" id="fourthNote">Click here to see the Green Rose 🌿</div>
+<div class="notification" id="startNote">Click for Pink Rose 🌸</div>
+<div class="notification hidden" id="nextNote">Click for Light Pink 🌷</div>
+<div class="notification hidden" id="thirdNote">Click for Yellow 🌼</div>
+<div class="notification hidden" id="fourthNote">Click for Green 🌿</div>
+<div class="notification hidden" id="fifthNote">Click for White 🤍</div>
 
 <div id="hearts"></div>
-<div id="sparkles"></div>
 
 <div class="container">
 
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose1">
-<div class="text hidden" id="text1">Click here to see Pink Rose 🌸</div>
+<div class="text hidden" id="text1">Pink Rose 🌸</div>
 
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose2">
-<div class="text hidden" id="text2">Click here to see Light Pink Rose 🌷</div>
+<div class="text hidden" id="text2">Light Pink 🌷</div>
 
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose3">
-<div class="text hidden" id="text3">Click here to see Yellow Rose 🌼</div>
+<div class="text hidden" id="text3">Yellow 🌼</div>
 
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose4">
-<div class="text hidden" id="text4">Click here to see Green Rose 🌿</div>
+<div class="text hidden" id="text4">Green 🌿</div>
+
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose5">
+<div class="text hidden" id="text5">White 🤍</div>
 
 <img src="1.png" class="image-reveal hidden" id="img1">
 <img src="12.jpeg" class="image-reveal hidden" id="img2">
 <img src="3.png" class="image-reveal hidden" id="img3">
 <img src="5.png" class="image-reveal hidden" id="img4">
+<img src="9.jpeg" class="image-reveal hidden" id="img5">
 
 <div class="message hidden" id="message"></div>
 
@@ -158,200 +126,171 @@ body {
 
 <script>
 
-const title = document.getElementById('title');
+const msg = document.getElementById('message');
 
 const startNote = document.getElementById('startNote');
 const nextNote = document.getElementById('nextNote');
 const thirdNote = document.getElementById('thirdNote');
 const fourthNote = document.getElementById('fourthNote');
+const fifthNote = document.getElementById('fifthNote');
 
 const rose1 = document.getElementById('rose1');
 const rose2 = document.getElementById('rose2');
 const rose3 = document.getElementById('rose3');
 const rose4 = document.getElementById('rose4');
+const rose5 = document.getElementById('rose5');
 
 const text1 = document.getElementById('text1');
 const text2 = document.getElementById('text2');
 const text3 = document.getElementById('text3');
 const text4 = document.getElementById('text4');
+const text5 = document.getElementById('text5');
 
 const img1 = document.getElementById('img1');
 const img2 = document.getElementById('img2');
 const img3 = document.getElementById('img3');
 const img4 = document.getElementById('img4');
-
-const msg = document.getElementById('message');
+const img5 = document.getElementById('img5');
 
 let heartColor = "#ff69b4";
 
-// hearts
+// hearts animation
 setInterval(()=>{
     let h = document.createElement('div');
     h.className='heart';
     h.innerHTML='❤';
     h.style.left = Math.random()*100+'vw';
-    h.style.fontSize = (15+Math.random()*20)+'px';
     h.style.color = heartColor;
     document.getElementById('hearts').appendChild(h);
     setTimeout(()=>h.remove(),6000);
 },300);
 
-// sparkles
-setInterval(()=>{
-    let s = document.createElement('div');
-    s.className='sparkle';
-    s.style.left = Math.random()*100+'vw';
-    s.style.top = Math.random()*100+'vh';
-    document.getElementById('sparkles').appendChild(s);
-    setTimeout(()=>s.remove(),2000);
-},200);
-
 // typing
-function typeText(textContent, callback){
-    let i = 0;
+function typeText(text, cb){
     msg.innerHTML='';
     msg.classList.remove('hidden');
-
-    let interval = setInterval(()=>{
-        msg.innerHTML += textContent.charAt(i);
+    let i=0;
+    let interval=setInterval(()=>{
+        msg.innerHTML+=text[i];
         i++;
-        if(i >= textContent.length){
+        if(i>=text.length){
             clearInterval(interval);
-            if(callback) callback();
+            if(cb) cb();
         }
-    },50);
+    },40);
 }
 
-// FLOW
-
-startNote.onclick = ()=>{
+// STEP 1
+startNote.onclick=()=>{
     startNote.style.display='none';
     rose1.classList.remove('hidden');
     text1.classList.remove('hidden');
 };
 
-rose1.onclick = ()=>{
-    rose1.classList.add('fade-out');
-    text1.style.opacity='0';
+rose1.onclick=()=>{
+    rose1.style.display='none';
+    text1.style.display='none';
 
-    setTimeout(()=>{
-        rose1.style.display='none';
-        text1.style.display='none';
+    img1.classList.remove('hidden');
+    setTimeout(()=>img1.classList.add('show'),100);
 
-        img1.classList.remove('hidden');
-        setTimeout(()=>img1.classList.add('show'),100);
-
-        setTimeout(()=>{
-            typeText('You are Prettiest pink rose 🌸💖', ()=>{
-                nextNote.classList.remove('hidden');
-            });
-        },1200);
-
-    },1000);
+    typeText("You are my pink rose 🌸💖", ()=>{
+        nextNote.classList.remove('hidden');
+    });
 };
 
-nextNote.onclick = ()=>{
+// STEP 2
+nextNote.onclick=()=>{
     nextNote.style.display='none';
-    img1.classList.remove('show');
+    img1.style.display='none';
 
-    setTimeout(()=>{
-        img1.style.display='none';
-        rose2.classList.remove('hidden');
-        text2.classList.remove('hidden');
-    },800);
+    rose2.classList.remove('hidden');
+    text2.classList.remove('hidden');
 };
 
-rose2.onclick = ()=>{
-    rose2.classList.add('fade-out');
-    text2.style.opacity='0';
+rose2.onclick=()=>{
+    document.body.style.background="linear-gradient(#ffc0cb,#fff0f5)";
+    heartColor="#ffb6c1";
 
-    document.body.style.background='linear-gradient(to bottom,#ffc0cb,#fff0f5)';
-    heartColor = "#ffb6c1";
+    rose2.style.display='none';
+    text2.style.display='none';
 
-    setTimeout(()=>{
-        rose2.style.display='none';
-        text2.style.display='none';
+    img2.classList.remove('hidden');
+    setTimeout(()=>img2.classList.add('show'),100);
 
-        img2.classList.remove('hidden');
-        setTimeout(()=>img2.classList.add('show'),100);
-
-        setTimeout(()=>{
-            typeText('You are the prettiest light pink rose 💕✨', ()=>{
-                thirdNote.classList.remove('hidden');
-            });
-        },1200);
-
-    },1000);
+    typeText("You are the prettiest light pink 🌷", ()=>{
+        thirdNote.classList.remove('hidden');
+    });
 };
 
-thirdNote.onclick = ()=>{
+// STEP 3
+thirdNote.onclick=()=>{
     thirdNote.style.display='none';
-    img2.classList.remove('show');
+    img2.style.display='none';
 
-    setTimeout(()=>{
-        img2.style.display='none';
-        rose3.classList.remove('hidden');
-        text3.classList.remove('hidden');
-    },800);
+    rose3.classList.remove('hidden');
+    text3.classList.remove('hidden');
 };
 
-rose3.onclick = ()=>{
-    rose3.classList.add('fade-out');
-    text3.style.opacity='0';
+rose3.onclick=()=>{
+    document.body.style.background="linear-gradient(#fff9c4,#fffde7)";
+    heartColor="#ffd700";
 
-    document.body.style.background='linear-gradient(to bottom,#fff9c4,#fffde7)';
-    heartColor = "#ffd700";
+    rose3.style.display='none';
+    text3.style.display='none';
 
-    title.style.color="#ffcc00";
+    img3.classList.remove('hidden');
+    setTimeout(()=>img3.classList.add('show'),100);
 
-    setTimeout(()=>{
-        rose3.style.display='none';
-        text3.style.display='none';
-
-        img3.classList.remove('hidden');
-        setTimeout(()=>img3.classList.add('show'),100);
-
-        setTimeout(()=>{
-            typeText('You are my sunshine, my yellow rose 🌼💛✨', ()=>{
-                fourthNote.classList.remove('hidden');
-            });
-        },800);
-
-    },1000);
+    typeText("You are my sunshine 🌼💛", ()=>{
+        fourthNote.classList.remove('hidden');
+    });
 };
 
-fourthNote.onclick = ()=>{
+// STEP 4
+fourthNote.onclick=()=>{
     fourthNote.style.display='none';
-    img3.classList.remove('show');
+    img3.style.display='none';
 
-    setTimeout(()=>{
-        img3.style.display='none';
-        rose4.classList.remove('hidden');
-        text4.classList.remove('hidden');
-    },800);
+    rose4.classList.remove('hidden');
+    text4.classList.remove('hidden');
 };
 
-rose4.onclick = ()=>{
-    rose4.classList.add('fade-out');
-    text4.style.opacity='0';
+rose4.onclick=()=>{
+    document.body.style.background="linear-gradient(#c8e6c9,#e8f5e9)";
+    heartColor="#00c853";
 
-    document.body.style.background='linear-gradient(to bottom,#c8e6c9,#e8f5e9)';
-    heartColor = "#00c853";
+    rose4.style.display='none';
+    text4.style.display='none';
 
-    title.style.color="#00c853";
+    img4.classList.remove('hidden');
+    setTimeout(()=>img4.classList.add('show'),100);
 
-    setTimeout(()=>{
-        rose4.style.display='none';
-        text4.style.display='none';
+    typeText("You are my peace 🌿💚✨", ()=>{
+        fifthNote.classList.remove('hidden');
+    });
+};
 
-        img4.classList.remove('hidden');
-        setTimeout(()=>img4.classList.add('show'),100);
+// STEP 5
+fifthNote.onclick=()=>{
+    fifthNote.style.display='none';
+    img4.style.display='none';
 
-        setTimeout(()=>{
-            typeText('You are my peace, my beautiful green rose 🌿💚✨');
-        },800);
+    rose5.classList.remove('hidden');
+    text5.classList.remove('hidden');
+};
 
-    },1000);
+rose5.onclick=()=>{
+    document.body.style.background="linear-gradient(#ffffff,#f5f5f5)";
+    heartColor="#ffffff";
+
+    rose5.style.display='none';
+    text5.style.display='none';
+
+    img5.classList.remove('hidden');
+    setTimeout(()=>img5.classList.add('show'),100);
+
+    typeText("You are my purest love 🤍✨");
 };
 
 </script>
