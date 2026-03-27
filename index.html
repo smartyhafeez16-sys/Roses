@@ -12,6 +12,17 @@ height:100vh; display:flex; justify-content:center; align-items:center;
 font-family:'Segoe UI',sans-serif; overflow:hidden;
 transition:background 1s ease;
 }
+
+/* MIMI glowing title */
+.title{
+position:fixed; top:20px; left:50%; transform:translateX(-50%);
+font-size:40px; font-weight:bold; letter-spacing:5px;
+color:#ff1493;
+text-shadow:0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 40px #ff69b4;
+transition:0.5s;
+z-index:5;
+}
+
 .container{ text-align:center; position:relative; z-index:2; }
 .rose{ width:200px; cursor:pointer; transition:1s; filter:drop-shadow(0 0 20px pink);} 
 .fade-out{ opacity:0; transform:scale(0.5) rotate(20deg);} 
@@ -20,13 +31,19 @@ transition:background 1s ease;
 .show{ opacity:1; transform:scale(1);} 
 .hidden{ display:none; }
 
-/* notification */
 .notification{
-position:fixed; top:20px; left:50%; transform:translateX(-50%);
-background:#ff69b4; color:white; padding:10px 20px;
-border-radius:20px; box-shadow:0 0 10px pink;
-font-size:16px; cursor:pointer; display:none;
+position:fixed; top:100px; left:50%; transform:translateX(-50%);
+background:#ff69b4; color:white; padding:12px 25px;
+border-radius:25px; box-shadow:0 0 15px pink;
+font-size:18px; cursor:pointer;
+z-index:5;
+animation:pulse 1.5s infinite;
 }
+
+@keyframes pulse{
+0%{transform:translateX(-50%) scale(1);} 
+50%{transform:translateX(-50%) scale(1.1);} 
+100%{transform:translateX(-50%) scale(1);} }
 
 /* hearts */
 .heart{ position:absolute; bottom:-20px; animation:floatUp 6s linear infinite;}
@@ -41,38 +58,51 @@ font-size:16px; cursor:pointer; display:none;
 </head>
 <body>
 
+<div class="title" id="title">MIMI 💖</div>
+
 <audio autoplay loop>
 <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
 </audio>
 
-<div class="notification" id="note">Click here next to see light pink rose 🌸</div>
+<div class="notification" id="startNote">Click here to see the Pink Rose 🌸</div>
+<div class="notification hidden" id="nextNote">Click here to see the Light Pink Rose 🌷</div>
 
 <div id="hearts"></div>
 <div id="sparkles"></div>
 
 <div class="container">
-<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose" id="rose">
-<div class="text" id="text">Click here to see Pink Rose 🌸</div>
+
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose1">
+<div class="text hidden" id="text1">Click here to see Pink Rose 🌸</div>
+
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose2">
+<div class="text hidden" id="text2">Click here to see Light Pink Rose 🌷</div>
+
 <img src="1.png" class="image-reveal hidden" id="img1">
 <img src="12.jpeg" class="image-reveal hidden" id="img2">
+
 <div class="message hidden" id="message"></div>
 </div>
 
 <script>
-const rose=document.getElementById('rose');
-const text=document.getElementById('text');
+const title=document.getElementById('title');
+const startNote=document.getElementById('startNote');
+const nextNote=document.getElementById('nextNote');
+
+const rose1=document.getElementById('rose1');
+const rose2=document.getElementById('rose2');
+const text1=document.getElementById('text1');
+const text2=document.getElementById('text2');
 const img1=document.getElementById('img1');
 const img2=document.getElementById('img2');
 const msg=document.getElementById('message');
-const note=document.getElementById('note');
 
-let stage=1;
 let heartColor="#ff69b4";
 
 // hearts
 setInterval(()=>{
 let h=document.createElement('div');
-h.className='heart'; h.innerHTML='🌹';
+h.className='heart'; h.innerHTML='❤';
 h.style.left=Math.random()*100+'vw';
 h.style.fontSize=(15+Math.random()*20)+'px';
 h.style.color=heartColor;
@@ -88,7 +118,6 @@ document.getElementById('sparkles').appendChild(s);
 setTimeout(()=>s.remove(),2000);
 },200);
 
-// typing
 function typeText(text){
 let i=0; msg.innerHTML='';
 let interval=setInterval(()=>{
@@ -98,41 +127,61 @@ if(i>=text.length) clearInterval(interval);
 },50);
 }
 
-rose.onclick=()=>{
-rose.classList.add('fade-out'); text.style.opacity='0';
+// START
+startNote.onclick=()=>{
+startNote.style.display='none';
+rose1.classList.remove('hidden');
+text1.classList.remove('hidden');
+}
+
+// FIRST ROSE
+rose1.onclick=()=>{
+rose1.classList.add('fade-out'); text1.style.opacity='0';
 setTimeout(()=>{
-rose.style.display='none'; text.style.display='none';
+rose1.style.display='none'; text1.style.display='none';
 img1.classList.remove('hidden');
 setTimeout(()=>img1.classList.add('show'),100);
 
 setTimeout(()=>{
 msg.classList.remove('hidden');
 typeText('You are Prettiest pink rose 🌸💖');
-note.style.display='block';
+nextNote.classList.remove('hidden');
 },1500);
 
 },1000);
-}
 
-// second stage
-note.onclick=()=>{
-stage=2;
-note.style.display='none';
-
-// change background
- document.body.style.background='linear-gradient(to bottom,#ffc0cb,#fff0f5)';
- heartColor="#ffb6c1";
-
+// SECOND STEP SHOW
+nextNote.onclick=()=>{
+nextNote.style.display='none';
 img1.classList.remove('show');
 setTimeout(()=>{
 img1.style.display='none';
+rose2.classList.remove('hidden');
+text2.classList.remove('hidden');
+},800);
+}
+
+// SECOND ROSE
+rose2.onclick=()=>{
+rose2.classList.add('fade-out'); text2.style.opacity='0';
+
+// change theme
+ document.body.style.background='linear-gradient(to bottom,#ffc0cb,#fff0f5)';
+ heartColor="#ffb6c1";
+
+// change MIMI color
+ title.style.color="#ff69b4";
+ title.style.textShadow="0 0 10px #ffb6c1,0 0 30px #ff69b4";
+
+setTimeout(()=>{
+rose2.style.display='none'; text2.style.display='none';
 img2.classList.remove('hidden');
 setTimeout(()=>img2.classList.add('show'),100);
 
 msg.innerHTML='';
 typeText('You are the prettiest light pink rose 💕✨');
 
-},800);
+},1000);
 }
 </script>
 
