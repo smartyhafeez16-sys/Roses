@@ -10,6 +10,7 @@ margin:0; padding:0;
 background:linear-gradient(to bottom,#ff9ecf,#ffe6f2);
 height:100vh; display:flex; justify-content:center; align-items:center;
 font-family:'Segoe UI',sans-serif; overflow:hidden;
+transition:background 1s ease;
 }
 .container{ text-align:center; position:relative; z-index:2; }
 .rose{ width:200px; cursor:pointer; transition:1s; filter:drop-shadow(0 0 20px pink);} 
@@ -19,23 +20,23 @@ font-family:'Segoe UI',sans-serif; overflow:hidden;
 .show{ opacity:1; transform:scale(1);} 
 .hidden{ display:none; }
 
+/* notification */
+.notification{
+position:fixed; top:20px; left:50%; transform:translateX(-50%);
+background:#ff69b4; color:white; padding:10px 20px;
+border-radius:20px; box-shadow:0 0 10px pink;
+font-size:16px; cursor:pointer; display:none;
+}
+
 /* hearts */
-.heart{ position:absolute; bottom:-20px; color:#ff69b4; animation:floatUp 6s linear infinite;}
+.heart{ position:absolute; bottom:-20px; animation:floatUp 6s linear infinite;}
 @keyframes floatUp{0%{transform:translateY(0);}100%{transform:translateY(-100vh); opacity:0;}}
 
 /* sparkles */
 .sparkle{ position:absolute; width:6px; height:6px; background:white; border-radius:50%; box-shadow:0 0 10px pink,0 0 20px hotpink; animation:sparkle 2s infinite;}
 @keyframes sparkle{0%,100%{opacity:0;}50%{opacity:1;}}
 
-/* typing text */
 .message{ color:white; font-size:20px; margin-top:20px; text-shadow:0 0 10px #ff69b4; }
-
-/* fireworks */
-.firework{ position:absolute; width:5px; height:5px; background:pink; border-radius:50%; animation:explode 1s ease-out forwards; }
-@keyframes explode{
-0%{transform:translate(0,0); opacity:1;}
-100%{transform:translate(var(--x),var(--y)); opacity:0;}
-}
 </style>
 </head>
 <body>
@@ -44,29 +45,37 @@ font-family:'Segoe UI',sans-serif; overflow:hidden;
 <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
 </audio>
 
+<div class="notification" id="note">Click here next to see light pink rose 🌸</div>
+
 <div id="hearts"></div>
 <div id="sparkles"></div>
-<div id="fireworks"></div>
 
 <div class="container">
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose" id="rose">
 <div class="text" id="text">Click here to see Pink Rose 🌸</div>
-<img src="1.png" class="image-reveal hidden" id="friendImage">
+<img src="1.png" class="image-reveal hidden" id="img1">
+<img src="12.jpeg" class="image-reveal hidden" id="img2">
 <div class="message hidden" id="message"></div>
 </div>
 
 <script>
 const rose=document.getElementById('rose');
 const text=document.getElementById('text');
-const img=document.getElementById('friendImage');
+const img1=document.getElementById('img1');
+const img2=document.getElementById('img2');
 const msg=document.getElementById('message');
+const note=document.getElementById('note');
+
+let stage=1;
+let heartColor="#ff69b4";
 
 // hearts
 setInterval(()=>{
 let h=document.createElement('div');
-h.className='heart'; h.innerHTML='❤';
+h.className='heart'; h.innerHTML='🌹';
 h.style.left=Math.random()*100+'vw';
 h.style.fontSize=(15+Math.random()*20)+'px';
+h.style.color=heartColor;
 document.getElementById('hearts').appendChild(h);
 setTimeout(()=>h.remove(),6000);
 },300);
@@ -79,19 +88,7 @@ document.getElementById('sparkles').appendChild(s);
 setTimeout(()=>s.remove(),2000);
 },200);
 
-// fireworks
-function createFirework(x,y){
-for(let i=0;i<20;i++){
-let f=document.createElement('div'); f.className='firework';
-f.style.left=x+'px'; f.style.top=y+'px';
-f.style.setProperty('--x',(Math.random()*200-100)+'px');
-f.style.setProperty('--y',(Math.random()*200-100)+'px');
-document.getElementById('fireworks').appendChild(f);
-setTimeout(()=>f.remove(),1000);
-}
-}
-
-// typing effect
+// typing
 function typeText(text){
 let i=0; msg.innerHTML='';
 let interval=setInterval(()=>{
@@ -105,21 +102,37 @@ rose.onclick=()=>{
 rose.classList.add('fade-out'); text.style.opacity='0';
 setTimeout(()=>{
 rose.style.display='none'; text.style.display='none';
-img.classList.remove('hidden');
-setTimeout(()=>img.classList.add('show'),100);
+img1.classList.remove('hidden');
+setTimeout(()=>img1.classList.add('show'),100);
 
-// show message
 setTimeout(()=>{
 msg.classList.remove('hidden');
-typeText('You are the prettiest pink rose in my life 🌸💖');
-},1500);
-
-// fireworks burst
-setInterval(()=>{
-createFirework(window.innerWidth/2, window.innerHeight/2);
+typeText('You are Prettiest pink rose 🌸💖');
+note.style.display='block';
 },1500);
 
 },1000);
+}
+
+// second stage
+note.onclick=()=>{
+stage=2;
+note.style.display='none';
+
+// change background
+ document.body.style.background='linear-gradient(to bottom,#ffc0cb,#fff0f5)';
+ heartColor="#ffb6c1";
+
+img1.classList.remove('show');
+setTimeout(()=>{
+img1.style.display='none';
+img2.classList.remove('hidden');
+setTimeout(()=>img2.classList.add('show'),100);
+
+msg.innerHTML='';
+typeText('You are the prettiest light pink rose 💕✨');
+
+},800);
 }
 </script>
 
