@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Mimi 💖</title>
+
 <style>
 body {
     margin: 0; padding: 0;
@@ -54,6 +55,7 @@ body {
     z-index: 5;
     animation: pulse 1.5s infinite;
 }
+
 @keyframes pulse {
     0% { transform: translateX(-50%) scale(1); } 
     50% { transform: translateX(-50%) scale(1.1); } 
@@ -68,7 +70,6 @@ body {
 
 .message { color: white; font-size: 20px; margin-top: 20px; text-shadow: 0 0 10px #ff69b4; }
 
-/* Mobile responsiveness */
 @media(max-width:768px) {
     .rose { width: 150px; }
     .image-reveal { width: 200px; }
@@ -77,41 +78,60 @@ body {
 }
 </style>
 </head>
+
 <body>
 
 <div class="title" id="title">MIMI 💖</div>
+
 <audio autoplay loop>
 <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
 </audio>
 
 <div class="notification" id="startNote">Click here to see the Pink Rose 🌸</div>
 <div class="notification hidden" id="nextNote">Click here to see the Light Pink Rose 🌷</div>
+<div class="notification hidden" id="thirdNote">Click here to see the Yellow Rose 🌼</div>
 
 <div id="hearts"></div>
 <div id="sparkles"></div>
 
 <div class="container">
+
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose1">
 <div class="text hidden" id="text1">Click here to see Pink Rose 🌸</div>
 
 <img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose2">
 <div class="text hidden" id="text2">Click here to see Light Pink Rose 🌷</div>
 
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose3">
+<div class="text hidden" id="text3">Click here to see Yellow Rose 🌼</div>
+
 <img src="1.png" class="image-reveal hidden" id="img1">
 <img src="12.jpeg" class="image-reveal hidden" id="img2">
+<img src="3.png" class="image-reveal hidden" id="img3">
+
 <div class="message hidden" id="message"></div>
+
 </div>
 
 <script>
+
 const title = document.getElementById('title');
 const startNote = document.getElementById('startNote');
 const nextNote = document.getElementById('nextNote');
+const thirdNote = document.getElementById('thirdNote');
+
 const rose1 = document.getElementById('rose1');
 const rose2 = document.getElementById('rose2');
+const rose3 = document.getElementById('rose3');
+
 const text1 = document.getElementById('text1');
 const text2 = document.getElementById('text2');
+const text3 = document.getElementById('text3');
+
 const img1 = document.getElementById('img1');
 const img2 = document.getElementById('img2');
+const img3 = document.getElementById('img3');
+
 const msg = document.getElementById('message');
 
 let heartColor = "#ff69b4";
@@ -130,11 +150,13 @@ setInterval(()=>{
 // Sparkles
 setInterval(()=>{
     let s = document.createElement('div'); s.className='sparkle';
-    s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
+    s.style.left = Math.random()*100+'vw'; 
+    s.style.top = Math.random()*100+'vh';
     document.getElementById('sparkles').appendChild(s);
     setTimeout(()=>s.remove(),2000);
 },200);
 
+// typing effect
 function typeText(textContent){
     let i = 0; msg.innerHTML='';
     let interval = setInterval(()=>{
@@ -144,17 +166,15 @@ function typeText(textContent){
     },50);
 }
 
-// START NOTIFICATION CLICK
-startNote.addEventListener('click', ()=>{
+// START
+startNote.onclick = ()=>{
     startNote.style.display='none';
     rose1.classList.remove('hidden');
     text1.classList.remove('hidden');
-    rose1.style.transform='scale(0.8)';
-    setTimeout(()=>{rose1.style.transform='scale(1)';},100);
-});
+};
 
-// FIRST ROSE CLICK
-rose1.addEventListener('click', ()=>{
+// FIRST ROSE
+rose1.onclick = ()=>{
     rose1.classList.add('fade-out'); text1.style.opacity='0';
     setTimeout(()=>{
         rose1.style.display='none'; text1.style.display='none';
@@ -166,10 +186,10 @@ rose1.addEventListener('click', ()=>{
             nextNote.classList.remove('hidden');
         },1500);
     },1000);
-});
+};
 
-// NEXT NOTIFICATION CLICK
-nextNote.addEventListener('click', ()=>{
+// SECOND STEP
+nextNote.onclick = ()=>{
     nextNote.style.display='none';
     img1.classList.remove('show');
     setTimeout(()=>{
@@ -177,23 +197,58 @@ nextNote.addEventListener('click', ()=>{
         rose2.classList.remove('hidden');
         text2.classList.remove('hidden');
     },800);
-});
+};
 
-// SECOND ROSE CLICK
-rose2.addEventListener('click', ()=>{
+// SECOND ROSE
+rose2.onclick = ()=>{
     rose2.classList.add('fade-out'); text2.style.opacity='0';
+
     document.body.style.background='linear-gradient(to bottom,#ffc0cb,#fff0f5)';
     heartColor = "#ffb6c1";
-    title.style.color="#ff69b4";
-    title.style.textShadow="0 0 10px #ffb6c1,0 0 30px #ff69b4";
+
     setTimeout(()=>{
         rose2.style.display='none'; text2.style.display='none';
         img2.classList.remove('hidden');
         setTimeout(()=>img2.classList.add('show'),100);
-        msg.innerHTML='';
+
         typeText('You are the prettiest light pink rose 💕✨');
+        thirdNote.classList.remove('hidden');
     },1000);
-});
+};
+
+// THIRD STEP
+thirdNote.onclick = ()=>{
+    thirdNote.style.display='none';
+    img2.classList.remove('show');
+
+    setTimeout(()=>{
+        img2.style.display='none';
+        rose3.classList.remove('hidden');
+        text3.classList.remove('hidden');
+    },800);
+};
+
+// THIRD ROSE 🌼
+rose3.onclick = ()=>{
+    rose3.classList.add('fade-out'); text3.style.opacity='0';
+
+    // YELLOW THEME
+    document.body.style.background='linear-gradient(to bottom,#fff9c4,#fffde7)';
+    heartColor = "#ffd700";
+
+    title.style.color="#ffcc00";
+    title.style.textShadow="0 0 10px #ffd700, 0 0 30px #ffea00";
+
+    setTimeout(()=>{
+        rose3.style.display='none'; text3.style.display='none';
+        img3.classList.remove('hidden');
+        setTimeout(()=>img3.classList.add('show'),100);
+
+        typeText('You are my sunshine, my yellow rose 🌼💛✨');
+    },1000);
+};
+
 </script>
+
 </body>
 </html>
