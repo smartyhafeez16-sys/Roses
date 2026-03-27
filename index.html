@@ -19,32 +19,23 @@ body {
     transition:1s;
 }
 
-/* TOP TITLE */
-.top-title {
+.title {
     position:fixed;
     top:20px;
     left:50%;
     transform:translateX(-50%);
-    font-size:35px;
-    color:#ff1493;
-    font-weight:bold;
-}
-
-/* CENTER TAP TEXT */
-.tap-start {
-    position:absolute;
     font-size:40px;
-    font-weight:bold;
     color:#ff1493;
-    cursor:pointer;
-    text-align:center;
+    font-weight:bold;
 }
 
-/* ROSES */
+.container{text-align:center;}
 .hidden{display:none;}
+
 .rose{
     width:200px;
     cursor:pointer;
+    transition:1s;
 }
 
 .image-reveal{
@@ -54,9 +45,9 @@ body {
     transform:scale(.7);
     transition:1.5s;
 }
+
 .show{opacity:1;transform:scale(1);}
 
-/* BUTTON */
 .notification{
     position:fixed;
     top:100px;
@@ -67,53 +58,68 @@ body {
     padding:12px 25px;
     border-radius:25px;
     cursor:pointer;
+    z-index:999;
     font-weight:bold;
+    box-shadow:0 0 10px pink;
 }
 
-/* HEARTS */
 .heart{
     position:absolute;
     bottom:-20px;
     animation:floatUp 6s linear infinite;
 }
+
 @keyframes floatUp{
     0%{transform:translateY(0);}
     100%{transform:translateY(-100vh);opacity:0;}
 }
 
-/* MESSAGE */
 .message{
     position:fixed;
-    bottom:40px;
+    bottom:50px;
     left:50%;
     transform:translateX(-50%);
-    font-size:22px;
-    font-weight:bold;
-    text-align:center;
-    padding:10px 20px;
-    border-radius:15px;
-    background: rgba(0,0,0,0.4);  /* 🔥 makes text always visible */
     color:white;
+    font-size:20px;
+    text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top-title">MIMI 💖</div>
+<div class="title">MIMI 💖</div>
 
-<!-- CENTER START -->
-<div id="tapStart" class="tap-start">Tap to see 💖</div>
-
-<!-- BUTTONS -->
-<div class="notification hidden" id="nextNote">Click here to continue 🌷</div>
+<!-- Notifications -->
+<div class="notification" id="startNote">Click here to see Pink Rose 🌸</div>
+<div class="notification hidden" id="nextNote">Click here to see Light Pink Rose 🌷</div>
+<div class="notification hidden" id="thirdNote">Click here to see Yellow Rose 🌼</div>
+<div class="notification hidden" id="fourthNote">Click here to see Green Rose 🌿</div>
+<div class="notification hidden" id="fifthNote">Click here to see White Rose 🤍</div>
+<div class="notification hidden" id="sixthNote">Click here to see White Rose 🤍</div>
+<div class="notification hidden" id="seventhNote">Click here to see Black Rose 🖤</div>
 
 <div id="hearts"></div>
 
 <div class="container">
 
-<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose">
-<img src="1.png" id="img" class="image-reveal hidden">
+<!-- Roses -->
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose1">
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose2">
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose3">
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose4">
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose5">
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose6">
+<img src="https://i.ibb.co/7QpKsCX/rose.png" class="rose hidden" id="rose7">
+
+<!-- Images -->
+<img src="1.png" id="img1" class="image-reveal hidden">
+<img src="12.jpeg" id="img2" class="image-reveal hidden">
+<img src="3.png" id="img3" class="image-reveal hidden">
+<img src="5.png" id="img4" class="image-reveal hidden">
+<img src="9.jpeg" id="img5" class="image-reveal hidden">
+<img src="9.jpeg" id="img6" class="image-reveal hidden">
+<img src="15.jpeg" id="img7" class="image-reveal hidden">
 
 <div id="message" class="message hidden"></div>
 
@@ -121,103 +127,169 @@ body {
 
 <script>
 
-const tapStart = document.getElementById('tapStart');
-const rose = document.getElementById('rose');
-const img = document.getElementById('img');
 const msg = document.getElementById('message');
 
-let step = 0;
-let heartColor = "#ff69b4";
+let heartColor="#ff69b4";
 
-// hearts
+// ❤️ Floating hearts
 setInterval(()=>{
- let h=document.createElement('div');
- h.className='heart';
- h.innerHTML='❤';
- h.style.left=Math.random()*100+'vw';
- h.style.color=heartColor;
- document.body.appendChild(h);
- setTimeout(()=>h.remove(),6000);
+    let h=document.createElement('div');
+    h.className='heart';
+    h.innerHTML='❤';
+    h.style.left=Math.random()*100+'vw';
+    h.style.color=heartColor;
+    document.getElementById('hearts').appendChild(h);
+    setTimeout(()=>h.remove(),6000);
 },300);
 
-// typing
-function typeText(text){
- msg.classList.remove('hidden');
- msg.innerHTML="";
- let i=0;
- let int=setInterval(()=>{
-  msg.innerHTML+=text[i];
-  i++;
-  if(i>=text.length) clearInterval(int);
- },40);
+// ✨ Typing text FIXED
+function typeText(text,cb){
+    msg.style.display="block";
+    msg.innerHTML="";
+    let i=0;
+
+    let interval=setInterval(()=>{
+        msg.innerHTML+=text.charAt(i);
+        i++;
+        if(i>=text.length){
+            clearInterval(interval);
+            if(cb) cb();
+        }
+    },40);
 }
 
-// START CLICK
-tapStart.onclick=()=>{
- tapStart.style.display='none';
- rose.classList.remove('hidden');
+// STEP 1
+startNote.onclick=()=>{
+    startNote.style.display='none';
+    rose1.classList.remove('hidden');
 };
 
-// ROSE CLICK FLOW
-rose.onclick=()=>{
+rose1.onclick=()=>{
+    rose1.style.display='none';
+    img1.classList.remove('hidden');
+    setTimeout(()=>img1.classList.add('show'),100);
 
- img.classList.remove('hidden');
- setTimeout(()=>img.classList.add('show'),100);
+    typeText("You are my beautiful Pink Rose 🌸💖", ()=>{
+        nextNote.classList.remove('hidden');
+    });
+};
 
- step++;
+// STEP 2
+nextNote.onclick=()=>{
+    nextNote.style.display='none';
+    img1.style.display='none';
+    rose2.classList.remove('hidden');
+};
 
- if(step===1){
-  img.src="1.png";
-  document.body.style.background="linear-gradient(#ff9ecf,#ffe6f2)";
-  heartColor="#ff69b4";
-  typeText(" beautiful Pink Rose 🌸💖");
- }
+rose2.onclick=()=>{
+    document.body.style.background="linear-gradient(#ffc0cb,#fff0f5)";
+    heartColor="#ffb6c1";
 
- else if(step===2){
-  img.src="12.jpeg";
-  document.body.style.background="linear-gradient(#ffc0cb,#fff0f5)";
-  heartColor="#ffb6c1";
-  typeText("lovely Light Pink Rose 🌷✨");
- }
+    rose2.style.display='none';
+    img2.classList.remove('hidden');
+    setTimeout(()=>img2.classList.add('show'),100);
 
- else if(step===3){
-  img.src="3.png";
-  document.body.style.background="linear-gradient(#fff9c4,#fffde7)";
-  heartColor="#ffd700";
-  typeText(" sunshine Yellow Rose 🌼💛");
- }
+    typeText("You are my lovely Light Pink Rose 🌷✨", ()=>{
+        thirdNote.classList.remove('hidden');
+    });
+};
 
- else if(step===4){
-  img.src="5.png";
-  document.body.style.background="linear-gradient(#c8e6c9,#e8f5e9)";
-  heartColor="#00c853";
-  typeText(" peace Green Rose 🌿💚");
- }
+// STEP 3
+thirdNote.onclick=()=>{
+    thirdNote.style.display='none';
+    img2.style.display='none';
+    rose3.classList.remove('hidden');
+};
 
- else if(step===5){
-  img.src="9.jpeg";
-  document.body.style.background="linear-gradient(#ffffff,#f5f5f5)";
-  heartColor="#ffffff";
-  msg.style.color="black";
-  typeText(" purest White Rose 🤍✨");
- }
+rose3.onclick=()=>{
+    document.body.style.background="linear-gradient(#fff9c4,#fffde7)";
+    heartColor="#ffd700";
 
- else if(step===6){
-  img.src="9.jpeg";
-  document.body.style.background="linear-gradient(#eeeeee,#ffffff)";
-  heartColor="#cccccc";
-  msg.style.color="black";
-  typeText(" eternal White Rose 🤍🌟");
- }
+    rose3.style.display='none';
+    img3.classList.remove('hidden');
+    setTimeout(()=>img3.classList.add('show'),100);
 
- else if(step===7){
-  img.src="15.jpeg";
-  document.body.style.background="linear-gradient(#000000,#222222)";
-  heartColor="#000000";
-  msg.style.color="white";
-  typeText("Even in darkness… you shine like Black Rose 🖤✨");
- }
+    typeText("You are my sunshine Yellow Rose 🌼💛", ()=>{
+        fourthNote.classList.remove('hidden');
+    });
+};
 
+// STEP 4
+fourthNote.onclick=()=>{
+    fourthNote.style.display='none';
+    img3.style.display='none';
+    rose4.classList.remove('hidden');
+};
+
+rose4.onclick=()=>{
+    document.body.style.background="linear-gradient(#c8e6c9,#e8f5e9)";
+    heartColor="#00c853";
+
+    rose4.style.display='none';
+    img4.classList.remove('hidden');
+    setTimeout(()=>img4.classList.add('show'),100);
+
+    typeText("You are my peace, my Green Rose 🌿💚", ()=>{
+        fifthNote.classList.remove('hidden');
+    });
+};
+
+// STEP 5
+fifthNote.onclick=()=>{
+    fifthNote.style.display='none';
+    img4.style.display='none';
+    rose5.classList.remove('hidden');
+};
+
+rose5.onclick=()=>{
+    document.body.style.background="linear-gradient(#ffffff,#f5f5f5)";
+    heartColor="#ffffff";
+
+    rose5.style.display='none';
+    img5.classList.remove('hidden');
+    setTimeout(()=>img5.classList.add('show'),100);
+
+    typeText("You are my purest White Rose 🤍✨", ()=>{
+        sixthNote.classList.remove('hidden');
+    });
+};
+
+// STEP 6
+sixthNote.onclick=()=>{
+    sixthNote.style.display='none';
+    img5.style.display='none';
+    rose6.classList.remove('hidden');
+};
+
+rose6.onclick=()=>{
+    document.body.style.background="linear-gradient(#eeeeee,#ffffff)";
+    heartColor="#dddddd";
+
+    rose6.style.display='none';
+    img6.classList.remove('hidden');
+    setTimeout(()=>img6.classList.add('show'),100);
+
+    typeText("You are my eternal White Rose 🤍🌟", ()=>{
+        seventhNote.classList.remove('hidden');
+    });
+};
+
+// STEP 7
+seventhNote.onclick=()=>{
+    seventhNote.style.display='none';
+    img6.style.display='none';
+    rose7.classList.remove('hidden');
+};
+
+rose7.onclick=()=>{
+    document.body.style.background="linear-gradient(#000000,#222222)";
+    heartColor="#000000";
+
+    rose7.style.display='none';
+    img7.classList.remove('hidden');
+    setTimeout(()=>img7.classList.add('show'),100);
+
+    typeText("Even in darkness… you shine like my Black Rose 🖤✨");
 };
 
 </script>
