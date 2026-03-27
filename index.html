@@ -24,7 +24,7 @@ body {
     top:20px;
     left:50%;
     transform:translateX(-50%);
-    font-size:40px;
+    font-size:35px;
     color:#ff1493;
     font-weight:bold;
 }
@@ -79,16 +79,17 @@ body {
     bottom:50px;
     left:50%;
     transform:translateX(-50%);
-    color:white;
-    font-size:20px;
+    font-size:22px;
     text-align:center;
+    font-weight:bold;
+    text-shadow:0 0 10px rgba(0,0,0,0.4);
 }
 </style>
 </head>
 
 <body>
 
-<div class="title">MIMI 💖</div>
+<div class="title">Tap to see 💖</div>
 
 <!-- Notifications -->
 <div class="notification" id="startNote">Click here to see Pink Rose 🌸</div>
@@ -128,7 +129,6 @@ body {
 <script>
 
 const msg = document.getElementById('message');
-
 let heartColor="#ff69b4";
 
 // ❤️ Floating hearts
@@ -142,9 +142,10 @@ setInterval(()=>{
     setTimeout(()=>h.remove(),6000);
 },300);
 
-// ✨ Typing text FIXED
-function typeText(text,cb){
+// ✨ Typing with color
+function typeText(text,color,cb){
     msg.style.display="block";
+    msg.style.color=color;
     msg.innerHTML="";
     let i=0;
 
@@ -158,7 +159,8 @@ function typeText(text,cb){
     },40);
 }
 
-// STEP 1
+// FLOW
+
 startNote.onclick=()=>{
     startNote.style.display='none';
     rose1.classList.remove('hidden');
@@ -169,12 +171,11 @@ rose1.onclick=()=>{
     img1.classList.remove('hidden');
     setTimeout(()=>img1.classList.add('show'),100);
 
-    typeText("You are my beautiful Pink Rose 🌸💖", ()=>{
+    typeText("You are my beautiful Pink Rose 🌸💖","#ffffff",()=>{
         nextNote.classList.remove('hidden');
     });
 };
 
-// STEP 2
 nextNote.onclick=()=>{
     nextNote.style.display='none';
     img1.style.display='none';
@@ -189,12 +190,11 @@ rose2.onclick=()=>{
     img2.classList.remove('hidden');
     setTimeout(()=>img2.classList.add('show'),100);
 
-    typeText("You are my lovely Light Pink Rose 🌷✨", ()=>{
+    typeText("You are my lovely Light Pink Rose 🌷✨","#ffffff",()=>{
         thirdNote.classList.remove('hidden');
     });
 };
 
-// STEP 3
 thirdNote.onclick=()=>{
     thirdNote.style.display='none';
     img2.style.display='none';
@@ -209,12 +209,11 @@ rose3.onclick=()=>{
     img3.classList.remove('hidden');
     setTimeout(()=>img3.classList.add('show'),100);
 
-    typeText("You are my sunshine Yellow Rose 🌼💛", ()=>{
+    typeText("You are my sunshine Yellow Rose 🌼💛","#333333",()=>{
         fourthNote.classList.remove('hidden');
     });
 };
 
-// STEP 4
 fourthNote.onclick=()=>{
     fourthNote.style.display='none';
     img3.style.display='none';
@@ -229,12 +228,11 @@ rose4.onclick=()=>{
     img4.classList.remove('hidden');
     setTimeout(()=>img4.classList.add('show'),100);
 
-    typeText("You are my peace, my Green Rose 🌿💚", ()=>{
+    typeText("You are my peace, my Green Rose 🌿💚","#ffffff",()=>{
         fifthNote.classList.remove('hidden');
     });
 };
 
-// STEP 5
 fifthNote.onclick=()=>{
     fifthNote.style.display='none';
     img4.style.display='none';
@@ -249,12 +247,11 @@ rose5.onclick=()=>{
     img5.classList.remove('hidden');
     setTimeout(()=>img5.classList.add('show'),100);
 
-    typeText("You are my purest White Rose 🤍✨", ()=>{
+    typeText("You are my purest White Rose 🤍✨","#333333",()=>{
         sixthNote.classList.remove('hidden');
     });
 };
 
-// STEP 6
 sixthNote.onclick=()=>{
     sixthNote.style.display='none';
     img5.style.display='none';
@@ -263,18 +260,17 @@ sixthNote.onclick=()=>{
 
 rose6.onclick=()=>{
     document.body.style.background="linear-gradient(#eeeeee,#ffffff)";
-    heartColor="#dddddd";
+    heartColor="#cccccc";
 
     rose6.style.display='none';
     img6.classList.remove('hidden');
     setTimeout(()=>img6.classList.add('show'),100);
 
-    typeText("You are my eternal White Rose 🤍🌟", ()=>{
+    typeText("You are my eternal White Rose 🤍🌟","#333333",()=>{
         seventhNote.classList.remove('hidden');
     });
 };
 
-// STEP 7
 seventhNote.onclick=()=>{
     seventhNote.style.display='none';
     img6.style.display='none';
@@ -289,7 +285,7 @@ rose7.onclick=()=>{
     img7.classList.remove('hidden');
     setTimeout(()=>img7.classList.add('show'),100);
 
-    typeText("Even in darkness… you shine like my Black Rose 🖤✨");
+    typeText("Even in darkness… you shine like my Black Rose 🖤✨","#ffffff");
 };
 
 </script>
