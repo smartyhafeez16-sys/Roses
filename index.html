@@ -129,26 +129,39 @@ if(i>=text.length) clearInterval(interval);
 
 // START
 startNote.onclick=()=>{
-startNote.style.display='none';
-rose1.classList.remove('hidden');
-text1.classList.remove('hidden');
+    startNote.style.display='none';
+
+    // show first rose properly
+    rose1.classList.remove('hidden');
+    text1.classList.remove('hidden');
+
+    // small animation for better UX (mobile friendly)
+    rose1.style.transform='scale(0.8)';
+    setTimeout(()=>{
+        rose1.style.transform='scale(1)';
+    },100);
 }
 
 // FIRST ROSE
 rose1.onclick=()=>{
-rose1.classList.add('fade-out'); text1.style.opacity='0';
-setTimeout(()=>{
-rose1.style.display='none'; text1.style.display='none';
-img1.classList.remove('hidden');
-setTimeout(()=>img1.classList.add('show'),100);
+    rose1.classList.add('fade-out');
+    text1.style.opacity='0';
 
-setTimeout(()=>{
-msg.classList.remove('hidden');
-typeText('You are Prettiest pink rose 🌸💖');
-nextNote.classList.remove('hidden');
-},1500);
+    setTimeout(()=>{
+        rose1.style.display='none';
+        text1.style.display='none';
 
-},1000);
+        img1.classList.remove('hidden');
+        setTimeout(()=>img1.classList.add('show'),100);
+
+        setTimeout(()=>{
+            msg.classList.remove('hidden');
+            typeText('You are Prettiest pink rose 🌸💖');
+            nextNote.classList.remove('hidden');
+        },1500);
+
+    },1000);
+};
 
 // SECOND STEP SHOW
 nextNote.onclick=()=>{
